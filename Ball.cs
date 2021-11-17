@@ -1,10 +1,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-public class Player : GameObject {
+public class Ball : GameObject {
+	public static float speed = 450f;
 
-
-	public Player(Game game, string pathToTexture, Vector2 position) : base(game, pathToTexture, position)
+	public Ball(Game game, string pathToTexture, Vector2 position) : base(game, pathToTexture, position)
 	{}
 
 	public void Draw(SpriteBatch spriteBatch) {
@@ -12,7 +12,7 @@ public class Player : GameObject {
 			this.texture,
 			this.position,
 			null,
-			Color.White,
+			Color.Red,
 			0f,
 			Vector2.Zero,
 			Vector2.One,
