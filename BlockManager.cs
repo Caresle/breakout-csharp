@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System;
 
 public class BlockManager {
 	public int rows;
@@ -19,7 +20,7 @@ public class BlockManager {
 		Vector2 changePosition = startPosition;
 		for (int i = 0; i < this.rows; i++) {
 			for (int j = 0; j < this.colums; j++) {
-				Block b = new Block(this.game, "block", changePosition);
+				Block b = new Block(this.game, "block", changePosition, Color.BlueViolet);
 				this.blocks.Add(b);
 				// Change the column position
 				changePosition = new Vector2(changePosition.X + 80, changePosition.Y);
@@ -31,7 +32,14 @@ public class BlockManager {
 
 	public void Draw(SpriteBatch spriteBatch) {
 		foreach(Block block in this.blocks) {
-			block.Draw(spriteBatch, Color.BlueViolet);
+			block.Draw(spriteBatch);
+		}
+	}
+
+	public void checkCollision(Ball ball) {
+		foreach(Block block in this.blocks) {
+			if (Utils.isColliding(ball.getRect(), block.getRect()))
+				block.color = Color.DodgerBlue;
 		}
 	}
 }

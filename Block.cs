@@ -2,15 +2,19 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 public class Block : GameObject {
-	public Block(Game game, string pathToTexture, Vector2 position) : base(game, pathToTexture, position)
-	{}
+	public Color color;
 
-	public void Draw(SpriteBatch spriteBatch, Color color) {
+	public Block(Game game, string pathToTexture, Vector2 position, Color color) : base(game, pathToTexture, position)
+	{
+		this.color = color;
+	}
+
+	public void Draw(SpriteBatch spriteBatch) {
 		spriteBatch.Draw(
 			this.texture,
 			this.position,
 			null,
-			color,
+			this.color,
 			0f,
 			Vector2.Zero,
 			Vector2.One,

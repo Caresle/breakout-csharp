@@ -60,6 +60,13 @@ namespace breakout
                 ball.speedX *= -1;
             if (ball.position.Y < 0 || ball.position.Y + ball.texture.Height > _graphics.PreferredBackBufferHeight)
                 ball.speedY *= -1;
+            
+            // Player Collision
+            if (Utils.isColliding(ball.getRect(), player.getRect()))
+                ball.speedY *= -1;
+
+            // Blocks collision
+            blockManager.checkCollision(ball);
             base.Update(gameTime);
         }
 
