@@ -10,7 +10,7 @@ namespace breakout
         private SpriteBatch _spriteBatch;
 
         Player player;
-
+        
         Ball ball;
         BlockManager blockManager;
 
@@ -51,6 +51,14 @@ namespace breakout
                 player.position.X += 250f * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (keys.IsKeyDown(Keys.Left) && player.position.X > 0)
                 player.position.X -= 250f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            ball.Move(gameTime, new Vector2(1, -1));
+
+            // Ball collision with the screen
+            if (ball.position.X < 0 || ball.position.X + ball.texture.Width > _graphics.PreferredBackBufferWidth)
+                ball.speedX *= -1;
+            if (ball.position.Y < 0 || ball.position.Y + ball.texture.Height > _graphics.PreferredBackBufferHeight)
+                ball.speedY *= -1;
             base.Update(gameTime);
         }
 

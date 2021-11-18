@@ -2,7 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 public class Ball : GameObject {
-	public static float speed = 450f;
+	public static float speed = 250f;
+	public float speedX = speed;
+	public float speedY = speed;
 
 	public Ball(Game game, string pathToTexture, Vector2 position) : base(game, pathToTexture, position)
 	{}
@@ -20,4 +22,10 @@ public class Ball : GameObject {
 			0f
 		);
 	}
+
+	public void Move(GameTime gameTime, Vector2 direction) {
+		this.position.X += direction.X * this.speedX * (float)gameTime.ElapsedGameTime.TotalSeconds;
+		this.position.Y += direction.Y * this.speedY * (float)gameTime.ElapsedGameTime.TotalSeconds;
+	}
+
 }
