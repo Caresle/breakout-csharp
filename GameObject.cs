@@ -9,4 +9,8 @@ public class GameObject {
 		this.texture = game.Content.Load<Texture2D>(pathToTexture);
 		this.position = position;
 	}
+
+	public Vector4 getRect() {
+		return new Vector4(this.position.X, this.position.Y, this.texture.Width, this.texture.Height);
+	}
 }

@@ -33,6 +33,7 @@ namespace breakout
             ball = new Ball(this, "ball", new Vector2(centerWidth - 8, _graphics.PreferredBackBufferHeight - 128));
             
             blockManager = new BlockManager(this, 3, 6);
+            blockManager.fillBlocks(new Vector2(100, 64));
             base.Initialize();
         }
 
@@ -68,8 +69,8 @@ namespace breakout
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             player.Draw(_spriteBatch);
+            blockManager.Draw(_spriteBatch);
             ball.Draw(_spriteBatch);
-            blockManager.Draw(_spriteBatch, new Vector2(100, 10));
             _spriteBatch.End();
             base.Draw(gameTime);
         }
