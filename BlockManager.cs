@@ -18,8 +18,11 @@ public class BlockManager {
 			for (int j = 0; j < colums; j++) {
 				Block b = new Block(this.game, "block", changePosition);
 				b.Draw(spriteBatch, Color.Aqua);
+				// The position for the new column
+				changePosition = new Vector2(changePosition.X + 80, changePosition.Y);
 			}
-			changePosition = new Vector2(startPosition.X, startPosition.Y + 32);
+			// The position of the new row
+			changePosition = new Vector2(startPosition.X, startPosition.Y + 32 * (i + 1));
 		}
 	}
 }
