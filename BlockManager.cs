@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using System;
 
 public class BlockManager {
 	public int rows;
@@ -16,7 +15,7 @@ public class BlockManager {
 		this.blocks = new List<Block>();
 	}
 
-	public void fillBlocks(Vector2 startPosition) {
+	public void FillBlocks(Vector2 startPosition) {
 		Vector2 changePosition = startPosition;
 		for (int i = 0; i < this.rows; i++) {
 			for (int j = 0; j < this.colums; j++) {
@@ -36,10 +35,15 @@ public class BlockManager {
 		}
 	}
 
-	public void checkCollision(Ball ball) {
+	public void CheckCollision(Ball ball) {
 		foreach(Block block in this.blocks) {
 			if (Utils.isColliding(ball.getRect(), block.getRect()))
 				block.color = Color.DodgerBlue;
 		}
+	}
+
+	public void ClearBlock(Vector2 startPosition) {
+		this.blocks = new List<Block>();
+		this.FillBlocks(startPosition);
 	}
 }
