@@ -66,36 +66,41 @@ namespace breakout
                 Exit();
             var keys = Keyboard.GetState();
 
-            // Player movement
-            player.Move(gameTime, keys, _graphics.PreferredBackBufferWidth);
-            
             // Reset ballAlives
-            if (keys.IsKeyDown(Keys.Space) && ballAlives <= 0) {
+            if (keys.IsKeyDown(Keys.Space) && (ballAlives <= 0 || blockManager.CheckIfWin())) {
                 blockManager.ClearBlock(blocksStartPosition);
                 ballAlives = ballAlivesInit;
                 ball.speedX = Ball.speed;
                 ball.speedY = Ball.speed;
             }
 
-            ball.Move(gameTime, startDirection);
+            if (!blockManager.CheckIfWin()) {
+                // Player movement
+                player.Move(gameTime, keys, _graphics.PreferredBackBufferWidth);
 
-            // Ball collision with the screen
-            if (ball.position.X < 0 || ball.position.X + ball.texture.Width > _graphics.PreferredBackBufferWidth)
-                ball.speedX *= -1;
-            if (ball.position.Y < 0 )
-                ball.speedY *= -1;
-            
-            if (ball.position.Y + ball.texture.Height > _graphics.PreferredBackBufferHeight) {
-                ballAlives--;
-                ball.position = ballStartPosition;
+                ball.Move(gameTime, startDirection);
+
+                // Ball collision with the screen
+                if (ball.position.X < 0 || ball.position.X + ball.texture.Width > _graphics.PreferredBackBufferWidth)
+                    ball.speedX *= -1;
+                if (ball.position.Y < 0 )
+                    ball.speedY *= -1;
+                
+                if (ball.position.Y + ball.texture.Height > _graphics.PreferredBackBufferHeight) {
+                    ballAlives--;
+                    ball.position = ballStartPosition;
+                    ball.speedX = Ball.speed;
+                    ball.speedY = Ball.speed;
+                }
+
+                // Player Collision
+                if (Utils.isColliding(ball.getRect(), player.getRect()))
+                    ball.speedY *= -1;
+
+                // Blocks collision
+                blockManager.CheckCollision(ball);
             }
 
-            // Player Collision
-            if (Utils.isColliding(ball.getRect(), player.getRect()))
-                ball.speedY *= -1;
-
-            // Blocks collision
-            blockManager.CheckCollision(ball);
             base.Update(gameTime);
         }
 
@@ -104,7 +109,12 @@ namespace breakout
             GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-            if (ballAlives > 0) {
+            if (blockManager.CheckIfWin() && ballAlives > 0) {
+                _spriteBatch.DrawString(font, "You win!",
+                new Vector2(_graphics.PreferredBackBufferWidth / 2 - 80, _graphics.PreferredBackBufferHeight / 2), Color.White
+                );
+            }
+            if (ballAlives > 0 && !blockManager.CheckIfWin()) {
                 player.Draw(_spriteBatch);
                 blockManager.Draw(_spriteBatch);
                 ball.Draw(_spriteBatch);

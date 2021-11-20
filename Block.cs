@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 public class Block : GameObject {
 	public Color color;
+	public bool isAlive = true;
 
 	public Block(Game game, string pathToTexture, Vector2 position, Color color) : base(game, pathToTexture, position)
 	{

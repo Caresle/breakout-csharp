@@ -31,19 +31,30 @@ public class BlockManager {
 
 	public void Draw(SpriteBatch spriteBatch) {
 		foreach(Block block in this.blocks) {
-			block.Draw(spriteBatch);
+			if (block.isAlive)
+				block.Draw(spriteBatch);
 		}
 	}
 
 	public void CheckCollision(Ball ball) {
 		foreach(Block block in this.blocks) {
-			if (Utils.isColliding(ball.getRect(), block.getRect()))
-				block.color = Color.DodgerBlue;
+			if (block.isAlive)
+				if (Utils.isColliding(ball.getRect(), block.getRect()))
+					block.isAlive = false;
 		}
 	}
 
+	public bool CheckIfWin() {
+		foreach(Block block in this.blocks) {
+			if (block.isAlive)
+				return false;
+		}
+		return true;
+	}
+
 	public void ClearBlock(Vector2 startPosition) {
-		this.blocks = new List<Block>();
-		this.FillBlocks(startPosition);
+		foreach(Block block in this.blocks) {
+			block.isAlive = true;
+		}
 	}
 }
