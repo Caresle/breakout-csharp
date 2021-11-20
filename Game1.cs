@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace breakout
 {
@@ -26,6 +27,11 @@ namespace breakout
         
         // Font
         SpriteFont font;
+
+        // Sounds
+        SoundEffect soundUpLife;
+        SoundEffect soundLose;
+        SoundEffect soundHitBall;
 
         public Game1()
         {
@@ -58,6 +64,9 @@ namespace breakout
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("font");
+            soundHitBall = Content.Load<SoundEffect>("hit");
+            soundLose = Content.Load<SoundEffect>("lose");
+            soundUpLife = Content.Load<SoundEffect>("3up");
         }
 
         protected override void Update(GameTime gameTime)
@@ -72,6 +81,7 @@ namespace breakout
                 ballAlives = ballAlivesInit;
                 ball.speedX = Ball.speed;
                 ball.speedY = Ball.speed;
+                soundUpLife.Play();
             }
 
             if (!blockManager.CheckIfWin()) {
@@ -94,8 +104,10 @@ namespace breakout
                 }
 
                 // Player Collision
-                if (Utils.isColliding(ball.getRect(), player.getRect()))
+                if (Utils.isColliding(ball.getRect(), player.getRect())) {
+                    soundHitBall.Play();
                     ball.speedY *= -1;
+                }
 
                 // Blocks collision
                 blockManager.CheckCollision(ball);
@@ -111,7 +123,7 @@ namespace breakout
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
             if (blockManager.CheckIfWin() && ballAlives > 0) {
                 _spriteBatch.DrawString(font, "You win!",
-                new Vector2(_graphics.PreferredBackBufferWidth / 2 - 80, _graphics.PreferredBackBufferHeight / 2), Color.White
+                new Vector2(_graphics.PreferredBackBufferWidth / 2 - 60, _graphics.PreferredBackBufferHeight / 2), Color.White
                 );
             }
             if (ballAlives > 0 && !blockManager.CheckIfWin()) {
@@ -121,6 +133,7 @@ namespace breakout
             }
 
             if (ballAlives <= 0) {
+                soundLose.Play();
                 _spriteBatch.DrawString(
                     font, "Game Over",
                     new Vector2(_graphics.PreferredBackBufferWidth / 2 - 80, _graphics.PreferredBackBufferHeight / 2), Color.White    
