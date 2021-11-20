@@ -15,12 +15,17 @@ namespace breakout
 
         Player player;
         
+        // Ball
         Ball ball;
         Vector2 ballStartPosition;
         Vector2 startDirection;
 
+        // Block Manager
         BlockManager blockManager;
         Vector2 blocksStartPosition;
+        
+        // Font
+        SpriteFont font;
 
         public Game1()
         {
@@ -52,6 +57,7 @@ namespace breakout
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            font = Content.Load<SpriteFont>("font");
         }
 
         protected override void Update(GameTime gameTime)
@@ -67,6 +73,8 @@ namespace breakout
             if (keys.IsKeyDown(Keys.Space) && ballAlives <= 0) {
                 blockManager.ClearBlock(blocksStartPosition);
                 ballAlives = ballAlivesInit;
+                ball.speedX = Ball.speed;
+                ball.speedY = Ball.speed;
             }
 
             ball.Move(gameTime, startDirection);
@@ -100,6 +108,13 @@ namespace breakout
                 player.Draw(_spriteBatch);
                 blockManager.Draw(_spriteBatch);
                 ball.Draw(_spriteBatch);
+            }
+
+            if (ballAlives <= 0) {
+                _spriteBatch.DrawString(
+                    font, "Game Over",
+                    new Vector2(_graphics.PreferredBackBufferWidth / 2 - 80, _graphics.PreferredBackBufferHeight / 2), Color.White    
+                );
             }
             _spriteBatch.End();
             base.Draw(gameTime);
