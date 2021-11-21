@@ -31,7 +31,9 @@ namespace breakout
         // Sounds
         SoundEffect soundUpLife;
         SoundEffect soundLose;
+        bool soundLoseActive = true;
         SoundEffect soundHitBall;
+
 
         public Game1()
         {
@@ -82,6 +84,7 @@ namespace breakout
                 ball.speedX = Ball.speed;
                 ball.speedY = Ball.speed;
                 soundUpLife.Play();
+                soundLoseActive = true;
             }
 
             if (!blockManager.CheckIfWin()) {
@@ -133,7 +136,11 @@ namespace breakout
             }
 
             if (ballAlives <= 0) {
-                soundLose.Play();
+                if (soundLoseActive) {
+                    soundLoseActive = false;
+                    soundLose.Play();
+                }
+                
                 _spriteBatch.DrawString(
                     font, "Game Over",
                     new Vector2(_graphics.PreferredBackBufferWidth / 2 - 80, _graphics.PreferredBackBufferHeight / 2), Color.White    
