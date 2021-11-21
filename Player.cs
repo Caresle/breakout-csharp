@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 
 public class Player : GameObject {
 
-	private float speed = 250f;
+	private float speed = 450f;
 
 	public Player(Game game, string pathToTexture, Vector2 position) : base(game, pathToTexture, position)
 	{}

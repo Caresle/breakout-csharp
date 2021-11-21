@@ -39,8 +39,31 @@ public class BlockManager {
 	public void CheckCollision(Ball ball) {
 		foreach(Block block in this.blocks) {
 			if (block.isAlive)
-				if (Utils.isColliding(ball.getRect(), block.getRect()))
+				if (Utils.isColliding(ball.getRect(), block.getRect())) {
+					float dimensionY = block.position.Y + block.texture.Height - ball.position.Y;
+					float dimensionY2 = block.position.Y - ball.position.Y;
+					float dimensionX = block.position.X - ball.position.X;
+					float dimensionX2 = block.position.X + block.texture.Width - ball.position.X;
 					block.isAlive = false;
+					if (dimensionY > dimensionY2 && dimensionY > dimensionX && dimensionY > dimensionX2) {
+						ball.speedX *= -1;
+						continue;
+					}
+
+					if (dimensionY2 > dimensionY && dimensionY2 > dimensionX && dimensionY2 > dimensionX2) {
+						ball.speedX *= -1;
+						continue;
+					}
+					
+					if (dimensionX > dimensionX2 && dimensionX > dimensionY && dimensionX > dimensionY2) {
+						ball.speedY *= -1;
+						continue;
+					}
+					
+					if (dimensionX2 > dimensionX && dimensionX2 > dimensionY && dimensionX2 > dimensionY2)
+						ball.speedY *= -1;
+						
+				}
 		}
 	}
 

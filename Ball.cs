@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 public class Ball : GameObject {
-	public static float speed = 250f;
+	public static float speed = 200f;
 	public float speedX = speed;
 	public float speedY = speed;
 
